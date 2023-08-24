@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Nibi Language Wiki</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<header>
+			<h1>Nibi Language Wiki</h1>
+			<nav>
+				<ul>
+					<li><a href="#introduction">Introduction</a></li>
+					<li><a href="#syntax">Syntax</a></li>
+					<li><a href="#installation">Installation</a></li>
+					<li><a href="#examples">Examples</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main>
+			<section id="introduction">
+				<h2>Introduction</h2>
+				<p>
+					The Nibi programming language! Nibi is a list processing language that
+					is under heavy development.
+				</p>
+				<p>
+					For documentation on the language please see
+					<a href="https://github.com/nibi-lang/nibi/blob/main/docs/LANGUAGE.md"
+						>Docs</a
+					>
+				</p>
+			</section>
+
+			<section id="syntax">
+				<h2>Syntax</h2>
+				<p>
+					The syntax of the programming language is demonstrated through the
+					following example, which implements a simple guessing game. Each
+					aspect of the code is explained in detail below.
+				</p>
+				<pre><code>(use "io")
+(use "random")
+
+(:= magic_number (random::range::int 0 100))
+
+(io::println "We've generated a random number between 0 and 100!")
+(io::println "Go ahead and guess until you get it right!")
+
+(:= num_guesses 1)
+(loop (:= i 0) (eq 0 i) (set num_guesses (+ 1 num_guesses)) [
+   (:= guess (io::prompt "guess: " io::get::int))
+   (if (eq magic_number guess) [
+      (io::println "Correct!")
+      (io::println "You got the number correct in " num_guesses " guesses!")
+      (exit 0)
+   ])
+   (if (< magic_number guess) (io::println "Lower!") (io::println "Higher!"))
+])</code>
+                    </pre>
+
+				<h3>Importing Modules</h3>
+				<pre><code>(use "io")
+(use "random")</code></pre>
+				<p>
+					The <code>use</code> keyword is used to import external modules. In
+					this example, the "io" module is imported to provide input/output
+					functionality, and the "random" module is imported to generate random
+					numbers.
+				</p>
+
+				<h3>Variable Assignment</h3>
+				<pre><code>(:= magic_number (random::range::int 0 100))
+(:= num_guesses 1)</code></pre>
+				<p>
+					The <code>:=</code> operator is used for variable assignment. In the
+					first line, the <code>magic_number</code> variable is assigned the
+					result of the <code>random::range::int</code> function call,
+					generating a random integer between 0 and 100 (exclusive). In the
+					second line, the <code>num_guesses</code> variable is assigned the
+					value <code>1</code>.
+				</p>
+
+				<h3>Printing Messages</h3>
+				<pre><code>(io::println "We've generated a random number between 0 and 100!")
+(io::println "Go ahead and guess until you get it right!")</code></pre>
+				<p>
+					The <code>io::println</code> function is used to output messages to
+					the console.
+				</p>
+
+				<h3>Looping and Conditionals</h3>
+				<pre><code>(loop (:= i 0) (eq 0 i) (set num_guesses (+ 1 num_guesses)) [
+   (:= guess (io::prompt "guess: " io::get::int))
+   (if (eq magic_number guess) [
+      (io::println "Correct!")
+      (io::println "You got the number correct in " num_guesses " guesses!")
+      (exit 0)
+   ])
+   (if (< magic_number guess) (io::println "Lower!") (io::println "Higher!"))</code></pre>
+				<p>
+					The <code>loop</code> construct initiates a loop. Here, a loop is used
+					to repeatedly prompt the user for guesses until they guess the correct
+					number. Within the loop:
+				</p>
+				<ul>
+					<li>
+						The variable <code>guess</code> is assigned the result of the
+						<code>io::prompt</code> function, which prompts the user for input.
+					</li>
+					<li>
+						An <code>if</code> statement checks if the
+						<code>magic_number</code> is equal to the <code>guess</code>. If
+						true, the game congratulates the player, displays the number of
+						guesses made, and exits the program.
+					</li>
+					<li>
+						Another <code>if</code> statement provides hints to the user,
+						indicating whether their guess should be higher or lower.
+					</li>
+				</ul>
+			</section>
+
+			<section id="installation">
+				<h2>Installation</h2>
+				<h3>Linux Installation</h3>
+				<p><em>(Only tested on Ubuntu and Pop!OS)</em></p>
+
+				<h4>Required Libraries</h4>
+				<p>
+					Before installing Nibi, you'll need to install the
+					<code>libffi-dev</code> library.
+				</p>
+
+				<h4>Setting Up Environment</h4>
+				<p>
+					Create the <code>NIBI_PATH</code> environment variable that points to
+					an installation directory for Nibi and its modules.
+				</p>
+
+				<h4>Building and Installing Nibi</h4>
+				<p>
+					Use <code>commander.py</code> to help build and install Nibi and its
+					default modules.
+				</p>
+				<pre><code>$ python commander.py -n -m</code></pre>
+
+				<h4>Updating Library Cache</h4>
+				<p>
+					Run <code>ldconfig</code> to ensure the application can locate the
+					<code>libnibi</code> library that was just installed.
+				</p>
+
+				<h4>Verifying Installation</h4>
+				<p>Verify that Nibi was installed by running:</p>
+				<pre><code>$ which nibi</code></pre>
+				<p>
+					If the installation was successful, this should display the path to
+					the Nibi executable.
+				</p>
+
+				<h4>Running Tests</h4>
+				<p>Check if Nibi and modules are running correctly:</p>
+				<pre><code>$ python commander.py -c -t</code></pre>
+				<p>
+					This command will run checks on all installed Nibi modules and execute
+					their respective test suites.
+				</p>
+
+				<h3>Apple Installation</h3>
+				<p><em>(Only tested on Ventura with M2 silicon)</em></p>
+
+				<h4>Install Prerequisites</h4>
+				<p>
+					Install <code>gcc</code> and <code>pkgconfig</code> using
+					<code>brew</code> or <code>ports</code>.
+				</p>
+
+				<h4>Set Environment Variables</h4>
+				<p>Set the following environment variables:</p>
+				<pre><code>export PKG_CONFIG_PATH="/usr/local/opt/libffi/lib/pkgconfig"
+        export CXX="/opt/homebrew/bin/g++-13"
+        export CC="/opt/homebrew/bin/gcc-13"
+        alias gcc="/opt/homebrew/bin/gcc-13"
+        alias g++="/opt/homebrew/bin/g++-13"</code></pre>
+
+				<h4>Note about MacOS</h4>
+				<p>
+					The <code>network</code> and <code>fileio</code> modules won't work on
+					MacOS and have been stubbed to throw errors when used.
+				</p>
+				<p>
+					Since this variant of Nibi is POC only, it's unlikely they'll be
+					updated to support Apple.
+				</p>
+			</section>
+
+			<section id="examples">
+				<h2>Examples</h2>
+				<p>Some practical examples showcasing the language features.</p>
+				<h3>Leibniz pi estimation</h3>
+				<pre><code>
+(fn leibniz [n] [
+  (:= sum 0.0)
+  (:= term 0.0)
+  (loop (:= i 0.0) (< i n) (set i (+ i 1.0)) [
+    (set term (/ (** -1.0 i) (+ 1.0 (* 2.0 i 1.0))))
+    (set sum (+ sum term))
+  ])
+  (<- (* sum 4))
+])
+(leibniz 65536)
+				</code></pre>
+				<h3>Magic number game</h3>
+				<pre><code>
+(use "io")
+(use "random")
+
+(:= magic_number (random::range::int 0 100))
+
+(io::println "We've generated a random number between 0 and 100!")
+(io::println "Go ahead and guess until you get it right!")
+
+(:= num_guesses 1)
+(loop (:= i 0) (eq 0 i) (set num_guesses (+ 1 num_guesses)) [
+   (:= guess (io::prompt "guess: " io::get::int))
+   (if (eq magic_number guess) [
+      (io::println "Correct!")
+      (io::println "You got the number correct in " num_guesses " guesses!")
+      (exit 0)
+   ])
+   (if (< magic_number guess) (io::println "Lower!") (io::println "Higher!"))
+])</code></pre>
+			</section>
+		</main>
+
+		<footer>
+			<p>&copy; 2023 Programming Language Wiki. All rights reserved.</p>
+		</footer>
+	</body>
+</html>
